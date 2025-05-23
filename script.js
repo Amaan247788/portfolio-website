@@ -13,7 +13,7 @@ document.querySelectorAll('nav a').forEach(anchor => {
 // Sample project data - Replace with your actual projects
 const projects = [
     {
-        title: "AI/ML Project",
+        title: "Personalized News Digest - In Progress",
         description: "Utilized WebScraping, Machine Learning, NLPs, and LLMs for text summarization.",
         /*
         I also utilized cloud storage to make the entire project work serverlessly. We implemented a web application that can enable you to earn points from purchases at various stores. These points can then be redeemded on our website to buy gift cards for a wide variety of stores
@@ -21,7 +21,7 @@ const projects = [
         githubLink: "https://github.com/Amaan247788"
     },
     {
-        title: "Project with Company in Noida",
+        title: "Industry based Project coming soon too",
         description: "They havent given me anything to do yet. Coming soon!",
         githubLink: "https://github.com/Amaan247788"
     },
