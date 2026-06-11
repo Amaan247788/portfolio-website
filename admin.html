@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Admin</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="admin-page">
+    <main class="admin-shell">
+        <section class="admin-panel">
+            <div class="admin-header">
+                <div>
+                    <h1>Project Admin</h1>
+                    <p>Add, edit, and delete the projects shown on your portfolio.</p>
+                </div>
+                <a href="index.html" class="admin-secondary-link">View Site</a>
+            </div>
+
+            <form id="login-form" class="admin-form">
+                <h2>Sign In</h2>
+                <label>
+                    Email
+                    <input type="email" id="admin-email" autocomplete="email" required>
+                </label>
+                <label>
+                    Password
+                    <input type="password" id="admin-password" autocomplete="current-password" required>
+                </label>
+                <button type="submit">Sign In</button>
+                <p id="login-message" class="admin-message"></p>
+            </form>
+
+            <div id="admin-controls" class="admin-controls" hidden>
+                <div class="admin-toolbar">
+                    <p id="admin-status"></p>
+                    <button type="button" id="sign-out-button" class="secondary-button">Sign Out</button>
+                </div>
+
+                <form id="project-form" class="admin-form">
+                    <h2 id="project-form-title">Add Project</h2>
+                    <input type="hidden" id="project-id">
+                    <label>
+                        Title
+                        <input type="text" id="project-title" required>
+                    </label>
+                    <label>
+                        Description
+                        <textarea id="project-description" rows="5" required></textarea>
+                    </label>
+                    <label>
+                        GitHub Link
+                        <input type="url" id="project-link" placeholder="https://github.com/Amaan247788/project-name">
+                    </label>
+                    <label>
+                        Display Order
+                        <input type="number" id="project-order" min="0" step="1" value="0">
+                    </label>
+                    <div class="admin-actions">
+                        <button type="submit">Save Project</button>
+                        <button type="button" id="reset-project-form" class="secondary-button">Clear</button>
+                    </div>
+                    <p id="project-message" class="admin-message"></p>
+                </form>
+
+                <div class="admin-list-wrap">
+                    <h2>Current Projects</h2>
+                    <div id="projects-admin-list" class="projects-admin-list"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script type="module" src="admin.js"></script>
+</body>
+</html>

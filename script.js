@@ -1,23 +1,9 @@
-// Smooth scrolling for navigation links
-document.querySelectorAll('nav a').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href');
-        const targetSection = document.querySelector(targetId);
-        targetSection.scrollIntoView({
-            behavior: 'smooth'
-        });
-    });
-});
+import { firebaseConfig, hasFirebaseConfig } from './firebase-config.js';
 
-// Sample project data - Replace with your actual projects
-const projects = [
+const fallbackProjects = [
     {
         title: "Personalized News Digest - In Progress",
         description: "Utilized WebScraping, Machine Learning, NLPs, and LLMs for text summarization.",
-        /*
-        I also utilized cloud storage to make the entire project work serverlessly. We implemented a web application that can enable you to earn points from purchases at various stores. These points can then be redeemded on our website to buy gift cards for a wide variety of stores
-        */
         githubLink: "https://github.com/Amaan247788"
     },
     {
@@ -30,54 +16,106 @@ const projects = [
         description: "Parsed over 700,000 lines of JSON data to calculate carbon emitted by planes on various flight paths",
         githubLink: "https://github.com/Amaan247788/carbon-emission-calculator"
     },
-    /* {
-        title: "Personalized News Digest"
-        description: "Webscrapped apple news -> trained ML model to personalize to users -> integrated Alexa AI to give voice assistance -> used chatgpt model to provide TLDR's to digest -> made a chatbot to ask about particular parts of the digest
-        Can use gradio to make a quick web app where users will input and output things",
-        githubLink: "https://github.com/Amaan247788"
-    } */
 ];
 
-// Function to create project cards
-function createProjectCards() {
+function setupSmoothScrolling() {
+    document.querySelectorAll('nav a').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+
+            targetSection.scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+}
+
+function createProjectCards(projects) {
     const projectsGrid = document.querySelector('.projects-grid');
-    projectsGrid.innerHTML = ''; // Clear existing content
+    projectsGrid.innerHTML = '';
 
     projects.forEach(project => {
         const projectCard = document.createElement('div');
         projectCard.className = 'project-card';
-        projectCard.innerHTML = `
-            <div class="card-inner">
-                <div class="card-front">
-                    <h3>${project.title}</h3>
-                </div>
-                <div class="card-back">
-                    <p>${project.description}</p>
-                    <a href="${project.githubLink}" class="github-link" target="_blank">
-                        <i class="fab fa-github"></i> View on GitHub
-                    </a>
-                </div>
-            </div>
-        `;
+
+        const cardInner = document.createElement('div');
+        cardInner.className = 'card-inner';
+
+        const cardFront = document.createElement('div');
+        cardFront.className = 'card-front';
+
+        const title = document.createElement('h3');
+        title.textContent = project.title;
+        cardFront.appendChild(title);
+
+        const cardBack = document.createElement('div');
+        cardBack.className = 'card-back';
+
+        const description = document.createElement('p');
+        description.textContent = project.description;
+
+        const githubLink = document.createElement('a');
+        githubLink.href = project.githubLink || '#';
+        githubLink.className = 'github-link';
+        githubLink.target = '_blank';
+        githubLink.rel = 'noreferrer';
+        githubLink.innerHTML = '<i class="fab fa-github"></i> View on GitHub';
+
+        cardBack.append(description, githubLink);
+        cardInner.append(cardFront, cardBack);
+        projectCard.appendChild(cardInner);
         projectsGrid.appendChild(projectCard);
     });
 }
 
-// Initialize project cards when the page loads
-document.addEventListener('DOMContentLoaded', createProjectCards);
+function setupProjectCardClicks() {
+    const projectsGrid = document.querySelector('.projects-grid');
+
+    projectsGrid.addEventListener('click', function(e) {
+        if (e.target.closest('a')) {
+            return;
+        }
+
+        const cardInner = e.target.closest('.card-inner');
+
+        if (cardInner) {
+            cardInner.classList.toggle('flipped');
+        }
+    });
+}
+
+async function loadProjectsFromFirebase() {
+    if (!hasFirebaseConfig()) {
+        createProjectCards(fallbackProjects);
+        return;
+    }
+
+    try {
+        const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js');
+        const { getDatabase, onValue, ref } = await import('https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js');
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const projectsRef = ref(database, 'projects');
+
+        onValue(projectsRef, snapshot => {
+            const data = snapshot.val() || {};
+            const projects = Object.values(data).sort((a, b) => {
+                return (a.order || 0) - (b.order || 0);
+            });
+
+            createProjectCards(projects.length ? projects : fallbackProjects);
+        });
+    } catch (error) {
+        console.error('Could not load Firebase projects:', error);
+        createProjectCards(fallbackProjects);
+    }
+}
 
 document.addEventListener('DOMContentLoaded', function() {
-    const cards = document.querySelectorAll('.card-front');
-    
-    cards.forEach(card => {
-        card.addEventListener('click', function(e) {
-            // Prevent click if it's on a link
-            if (e.target.closest('a')) {
-                return;
-            }
-            
-            const cardInner = this.parentElement;
-            cardInner.classList.toggle('flipped');
-        });
-    });
+    setupSmoothScrolling();
+    setupProjectCardClicks();
+    loadProjectsFromFirebase();
 });

@@ -179,6 +179,10 @@ section {
     transform: scale(1.05);
 }
 
+.card-inner.flipped {
+    transform: rotateY(180deg);
+}
+
 /* Contact section */
 .contact-section {
     background-color: #f9f9f9;
@@ -217,6 +221,139 @@ footer {
     color: white;
     text-align: center;
     padding: 1rem;
+}
+
+/* Admin page */
+.admin-page {
+    background-color: #f4f7f9;
+}
+
+.admin-shell {
+    margin-top: 0;
+}
+
+.admin-panel {
+    max-width: 960px;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+    justify-content: flex-start;
+}
+
+.admin-header,
+.admin-toolbar,
+.admin-actions,
+.admin-project-item,
+.admin-project-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.admin-header,
+.admin-toolbar,
+.admin-project-item {
+    justify-content: space-between;
+}
+
+.admin-header {
+    margin-bottom: 2rem;
+}
+
+.admin-header h1 {
+    color: #2c3e50;
+}
+
+.admin-secondary-link,
+.admin-form button,
+.secondary-button,
+.danger-button {
+    border: 0;
+    border-radius: 6px;
+    cursor: pointer;
+    font: inherit;
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+}
+
+.admin-secondary-link,
+.secondary-button {
+    background-color: #dfe8ef;
+    color: #2c3e50;
+}
+
+.admin-form,
+.admin-list-wrap {
+    background-color: white;
+    border: 1px solid #dfe8ef;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+}
+
+.admin-form {
+    display: grid;
+    gap: 1rem;
+}
+
+.admin-form h2,
+.admin-list-wrap h2 {
+    color: #2c3e50;
+}
+
+.admin-form label {
+    display: grid;
+    gap: 0.4rem;
+}
+
+.admin-form input,
+.admin-form textarea {
+    border: 1px solid #c8d3dc;
+    border-radius: 6px;
+    font: inherit;
+    padding: 0.75rem;
+    width: 100%;
+}
+
+.admin-form button {
+    background-color: #3498db;
+    color: white;
+}
+
+.admin-form .secondary-button {
+    background-color: #dfe8ef;
+    color: #2c3e50;
+}
+
+.danger-button {
+    background-color: #c0392b;
+    color: white;
+}
+
+.admin-message {
+    min-height: 1.5rem;
+}
+
+.admin-message.error {
+    color: #c0392b;
+}
+
+.admin-message.success {
+    color: #217a42;
+}
+
+.projects-admin-list {
+    display: grid;
+    gap: 1rem;
+}
+
+.admin-project-item {
+    border-top: 1px solid #dfe8ef;
+    padding-top: 1rem;
+}
+
+.admin-project-item p {
+    margin-top: 0.25rem;
 }
 
 /* Responsive design */
