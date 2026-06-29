@@ -1,15 +1,15 @@
 export const firebaseConfig = {
-    apiKey: "AIzaSyDSlK9B5rj6iQJFogrOg6gp2OnheRKA8a4",
-    authDomain: "amaan-portfolio-website.firebaseapp.com",
-    databaseURL: "https://amaan-portfolio-website-default-rtdb.firebaseio.com",
-    projectId: "amaan-portfolio-website",
-    storageBucket: "amaan-portfolio-website.firebasestorage.app",
-    messagingSenderId: "663023180745",
-    appId: "1:663023180745:web:e76337951966aafb4ca618",
-    measurementId: "G-JW73X5G87E"
+    apiKey: process.env.FIREBASE_APIKEY,
+    authDomain: process.env.FIREBASE_AUTHDOMAIN,
+    databaseURL: process.env.FIREBASE_DATABASEURL,
+    projectId: process.env.FIREBASE_PROJECTID,
+    storageBucket: process.env.FIREBASE_STORAGEBUCKET,
+    messagingSenderId: process.env.FIREBASE_MESSAGINGSENDERID,
+    appId: process.env.FIREBASE_APPID,
+    measurementId: process.env.FIREBASE_MEASUREMENTID
 };
 
-export const adminUid = "Zo1qbE37FwYzgHyFlpKML6RPjOE3";
+export const adminUid = process.env.FIREBASE_ADMINUID;
 
 export function hasFirebaseConfig() {
     return Object.values(firebaseConfig).every(value => value && !value.startsWith("PASTE_"));
